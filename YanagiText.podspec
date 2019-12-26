@@ -8,7 +8,6 @@ s.author       = { "YuigaWada" => "yuigawada@gmail.com" }
 s.source       = { :git => "https://github.com/yuigawada/YanagiText.git", :tag => "#{s.version}" }
 s.platform     = :ios, "11.0"
 s.requires_arc = true
-s.source_files = 'PolioPager/**/*.{swift,h}'
-s.resources    = 'PolioPager/**/*.{xib,xcassets}'
+s.source_files = 'YanagiText/**/*.{swift,h}'
 s.swift_version = "5.0"
 end
