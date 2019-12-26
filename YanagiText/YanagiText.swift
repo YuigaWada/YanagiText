@@ -68,6 +68,48 @@ open class YanagiText: UITextView {
         }
     }
     
+    public func shouldChangeText(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        textView.attributedText.enumerateAttribute(NSAttributedString.Key.attachment, in: NSMakeRange(0, textView.attributedText.length), options: NSAttributedString.EnumerationOptions(rawValue: 0)) { [weak self] (value, viewStringRange, stop) in
+            guard let self = self, viewStringRange.location >= range.location else { return }
+            
+            let currentSelectedRange = self.selectedRange
+            defer {
+                self.selectedRange = currentSelectedRange
+            }
+            
+            
+            let nextLineRange = NSMakeRange(viewStringRange.location, viewStringRange.length)
+            self.selectedRange = nextLineRange
+            
+            guard let attachment = value as? NSTextAttachment,
+                let selectedTextRange = selectedTextRange,
+                let yanagiAttachment = self.findYanagiAttachment(nsAttachment: attachment) else { return }
+            
+            
+            let targetView = yanagiAttachment.view
+            
+            var estimatedRect = self.firstRect(for: selectedTextRange).insetBy(dx: xMargin, dy: yMargin)
+            let lineHeight = estimatedRect.height
+            
+            estimatedRect.origin.y += lineHeight
+            estimatedRect.origin.y -= yanagiAttachment.size.height
+            
+            estimatedRect.size = yanagiAttachment.size
+            
+            
+            if text.isEmpty, NSEqualRanges(range, viewStringRange){
+                targetView.removeFromSuperview() // delete the target of View.
+            }
+            else {
+                targetView.frame = estimatedRect
+            }
+        }
+        
+        return true
+    }
+    
+    
     //MARK: Privates
     
     private func generateFakeImage(size: CGSize)-> UIImage? {
@@ -133,103 +175,10 @@ open class YanagiText: UITextView {
         return result
     }
     
-    
-    
-    open func shouldChangeText(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        textView.attributedText.enumerateAttribute(NSAttributedString.Key.attachment, in: NSMakeRange(0, textView.attributedText.length), options: NSAttributedString.EnumerationOptions(rawValue: 0)) { [weak self] (value, viewStringRange, stop) in
-            guard let self = self, viewStringRange.location >= range.location else { return }
-            
-            let currentSelectedRange = self.selectedRange
-            defer {
-                self.selectedRange = currentSelectedRange
-            }
-            
-            
-            let nextLineRange = NSMakeRange(viewStringRange.location, viewStringRange.length)
-            
-            self.selectedRange = nextLineRange
-            
-            
-            
-            guard let attachment = value as? NSTextAttachment,
-                let selectedTextRange = selectedTextRange,
-                let yanagiAttachment = self.findYanagiAttachment(nsAttachment: attachment) else { return }
-            
-            
-            let targetView = yanagiAttachment.view
-            
-            var estimatedRect = self.firstRect(for: selectedTextRange).insetBy(dx: xMargin, dy: yMargin)
-            let lineHeight = estimatedRect.height
-            
-            estimatedRect.origin.y += lineHeight
-            estimatedRect.origin.y -= yanagiAttachment.size.height
-            
-            estimatedRect.size = yanagiAttachment.size
-            
-            
-            if text.isEmpty, NSEqualRanges(range, viewStringRange){
-                targetView.removeFromSuperview() // delete the target of View.
-            }
-            else {
-                targetView.frame = estimatedRect
-            }
-        }
-        
-        return true
-    }
-    
-    
-    
-//
-//    open func _textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//
-//        textView.attributedText.enumerateAttribute(NSAttributedString.Key.attachment, in: NSMakeRange(0, textView.attributedText.length), options: NSAttributedString.EnumerationOptions(rawValue: 0)) { [weak self] (value, viewStringRange, stop) in
-//            guard let self = self, viewStringRange.location >= range.location else { return }
-//
-//            let currentSelectedRange = self.selectedRange
-//            defer {
-//                self.selectedRange = currentSelectedRange
-//            }
-//
-//
-//            let movement = text.count - range.length
-//            let direction: CGFloat = movement > 0 ? 1 : -1
-//
-//            let nextLineRange = NSMakeRange(viewStringRange.location + movement, viewStringRange.length)
-//
-//            self.selectedRange = nextLineRange
-//
-//
-//
-//            guard let attachment = value as? NSTextAttachment,
-//                let selectedTextRange = selectedTextRange,
-//                let yanagiAttachment = self.findYanagiAttachment(nsAttachment: attachment) else { return }
-//
-//
-//            let targetView = yanagiAttachment.view
-//
-//            let nextLineRect = self.firstRect(for: selectedTextRange)
-//
-//            let estimatedRect = CGRect(x: targetView.frame.origin.x + nextLineRect.width * direction,
-//                                       y: targetView.frame.origin.y,
-//                                       width: yanagiAttachment.size.width,
-//                                       height: yanagiAttachment.size.height)
-//
-//
-//            if text.isEmpty, NSEqualRanges(range, viewStringRange){
-//                targetView.removeFromSuperview() // delete the target of View.
-//            }
-//            else {
-//                targetView.frame = estimatedRect
-//            }
-//        }
-//
-//        return true
-//    }
 }
 
 
+//MARK: Extension
 public extension YanagiText {
     struct Attachment {
         var view: UIView
