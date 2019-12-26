@@ -7,11 +7,13 @@
 
 <br>
 
-## YanagiText 📓
+## YanagiText 🌿
 
 <img align="right" src="Resources/Demo.gif" width=30%>
 
 YanagiText allows us to add any UIView to UITextView!
+
+<br><br>
 
 ## Installation 📒
 
