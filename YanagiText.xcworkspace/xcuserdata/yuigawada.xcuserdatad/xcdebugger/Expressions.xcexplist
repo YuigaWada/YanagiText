@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in YanagiText.textView(_:shouldChangeTextIn:replacementText:):YanagiText.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in YanagiText.transformText():YanagiText.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "attachment.contents">
+            </PersistentString>
+            <PersistentString
+               value = "estimatedRect.origin.y">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "YanagiText.findYanagiAttachment(nsAttachment:):YanagiText.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "attachmentList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
