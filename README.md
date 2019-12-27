@@ -48,7 +48,7 @@ override func viewDidLoad() {
     super.viewDidLoad()
 
     // You can add a view to your UITextView
-    self.textView = self.textView.getViewString(with: anyView, size: anyView.frame.size)
+    self.textView.attributedText = self.textView.getViewString(with: anyView, size: anyView.frame.size)
 }
 ```
 
