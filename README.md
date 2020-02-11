@@ -73,6 +73,12 @@ class YourViewController: UIViewController, UITextViewDelegate {
 
 <br><br>
 
+## Example
+
+<img src="./Resources/MissCat.gif">
+
+<br><br>
+
 ## Contribute 👨
 
 We would love you for the contribution to **YanagiText**, check the ``LICENSE`` file for more info.
